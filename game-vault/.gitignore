@@ -32,6 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-### Ignore raw and clean dataset ###
-games.csv
+# Ignorar SOLO el archivo gigante original dentro de la carpeta
+game-vault/games.csv
+
+# (Opcional) Si quieres ignorar el intermedio también pon:
 games_ready_for_db.csv
