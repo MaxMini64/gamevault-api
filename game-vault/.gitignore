@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Ignore raw and clean dataset ###
+C:/ProyectosPersonales/GameVault-api/game-vault/games.csv
+C:/ProyectosPersonales/GameVault-api/games_ready_for_db.csv
