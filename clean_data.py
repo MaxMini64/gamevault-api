@@ -88,6 +88,7 @@ unique_genres = df_exploded['genre_list'].unique()
 genres_db = pd.DataFrame(unique_genres, columns=['name'])
 # Asigno un id unico a cada genero
 genres_db['genreID'] = range(1, len(genres_db) + 1)
+genres_db = genres_db[['genreID', 'name']]
 
 # D) Tabla INTERMEDIA (GAME_GENRES)
 relation_db = df_exploded.merge(genres_db, left_on='genre_list', right_on='name')
