@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 
-INPUT_FILE = r'"C:\Users\unkin\Downloads\games.csv"'
+INPUT_FILE = r'C:\Users\unkin\Downloads\games.csv'
 OUTPUT_FILE = r'C:\ProyectosPersonales\GameVault-api\games_ready_for_db.csv'
 OUT_GAMES = 'gamesDB.csv'
 OUT_GENRES = 'genresDB.csv'

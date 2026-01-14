@@ -1,59 +1,59 @@
-name,genreID
-Single-player,1
-Steam Trading Cards,2
-Steam Cloud,3
-Family Sharing,4
-Steam Achievements,5
-VR Only,6
-Steam Leaderboards,7
-Tracked Controller Support,8
-Steam Workshop,9
-Full controller support,10
-Steam Timeline,11
-Multi-player,12
-PvP,13
-Online PvP,14
-Includes level editor,15
-Partial Controller Support,16
-Remote Play Together,17
-Shared/Split Screen PvP,18
-Co-op,19
-Shared/Split Screen Co-op,20
-Shared/Split Screen,21
-Online Co-op,22
-Cross-Platform Multiplayer,23
-Remote Play on TV,24
-In-App Purchases,25
-Stats,26
-Custom Volume Controls,27
-Adjustable Difficulty,28
-Keyboard Only Option,29
-Narrated Game Menus,30
-Playable without Timed Input,31
-Stereo Sound,32
-Subtitle Options,33
-Camera Comfort,34
-Remote Play on Phone,35
-Remote Play on Tablet,36
-Save Anytime,37
-Mouse Only Option,38
-MMO,39
-Touch Only Option,40
-Surround Sound,41
-Adjustable Text Size,42
-Color Alternatives,43
-VR Supported,44
-LAN PvP,45
-Captions available,46
-HDR available,47
-LAN Co-op,48
-Commentary available,49
-Valve Anti-Cheat enabled,50
-VR Support,51
-Steam Turn Notifications,52
-Includes Source SDK,53
-SteamVR Collectibles,54
-Chat Text-to-speech,55
-Chat Speech-to-text,56
-Mods (require HL2),57
-Mods,58
+genreID,name
+1,Single-player
+2,Steam Trading Cards
+3,Steam Cloud
+4,Family Sharing
+5,Steam Achievements
+6,VR Only
+7,Steam Leaderboards
+8,Tracked Controller Support
+9,Steam Workshop
+10,Full controller support
+11,Steam Timeline
+12,Multi-player
+13,PvP
+14,Online PvP
+15,Includes level editor
+16,Partial Controller Support
+17,Remote Play Together
+18,Shared/Split Screen PvP
+19,Co-op
+20,Shared/Split Screen Co-op
+21,Shared/Split Screen
+22,Online Co-op
+23,Cross-Platform Multiplayer
+24,Remote Play on TV
+25,In-App Purchases
+26,Stats
+27,Custom Volume Controls
+28,Adjustable Difficulty
+29,Keyboard Only Option
+30,Narrated Game Menus
+31,Playable without Timed Input
+32,Stereo Sound
+33,Subtitle Options
+34,Camera Comfort
+35,Remote Play on Phone
+36,Remote Play on Tablet
+37,Save Anytime
+38,Mouse Only Option
+39,MMO
+40,Touch Only Option
+41,Surround Sound
+42,Adjustable Text Size
+43,Color Alternatives
+44,VR Supported
+45,LAN PvP
+46,Captions available
+47,HDR available
+48,LAN Co-op
+49,Commentary available
+50,Valve Anti-Cheat enabled
+51,VR Support
+52,Steam Turn Notifications
+53,Includes Source SDK
+54,SteamVR Collectibles
+55,Chat Text-to-speech
+56,Chat Speech-to-text
+57,Mods (require HL2)
+58,Mods
