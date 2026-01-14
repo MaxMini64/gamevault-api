@@ -95,6 +95,7 @@ relation_db = df_exploded.merge(genres_db, left_on='genre_list', right_on='name'
 
 # Me interesan las llaves foraneas (IDs)
 relation_db = relation_db[['gameID', 'genreID']]
+relation_db = relation_db.drop_duplicates()
 
 # 6 EXPORTACION
 print("Guardando archivos limpios...")
