@@ -14,7 +14,7 @@ public class Genre {
     private Long genreID;
 
     @Column(name = "name")
-    private String genreName;
+    private String name;
 
     @ManyToMany(mappedBy = "genres")
     @JsonIgnore // JsonIgnore es para que no se quede en un ciclo infinito al buscar entre la relacion
@@ -23,9 +23,9 @@ public class Genre {
     public Genre() {
     }
 
-    public Genre(Long genreID, String genreName) {
+    public Genre(Long genreID, String name) {
         this.genreID = genreID;
-        this.genreName = genreName;
+        this.name = name;
     }
 
     public Long getGenreID() {
@@ -37,10 +37,10 @@ public class Genre {
     }
 
     public String getGenreName() {
-        return genreName;
+        return name;
     }
 
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
+    public void setGenreName(String name) {
+        this.name = name;
     }
 }
