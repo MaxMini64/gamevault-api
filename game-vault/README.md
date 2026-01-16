@@ -7,7 +7,7 @@ Este proyecto fue desarrollado utilizando las mejores prácticas de **Spring Boo
 ## 🚀 Tecnologías Utilizadas
 
 * **Lenguaje:** Java 25 (OpenJDK)
-* **Framework:** Spring Boot 3+
+* **Framework:** Spring Boot 4
 * **Base de Datos:** PostgreSQL
 * **ORM:** Hibernate / Spring Data JPA
 * **Herramientas:** Maven, Git, Postman
