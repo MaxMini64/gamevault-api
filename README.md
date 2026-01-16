@@ -1,10 +1,10 @@
-# 🎮 GameVault API
+# GameVault API
 
 GameVault es una API RESTful diseñada para gestionar una biblioteca de videojuegos. Permite administrar juegos, precios, años de lanzamiento y géneros, implementando relaciones complejas y filtros de búsqueda avanzados.
 
 Este proyecto fue desarrollado utilizando las mejores prácticas de **Spring Boot** y **JPA** para crear un backend robusto y escalable.
 
-## 🚀 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 * **Lenguaje:** Java 25 (OpenJDK)
 * **Framework:** Spring Boot 4
@@ -13,7 +13,7 @@ Este proyecto fue desarrollado utilizando las mejores prácticas de **Spring Boo
 * **Herramientas:** Maven, Git, Postman
 * **IDE:** IntelliJ IDEA
 
-## ⚙️ Funcionalidades Principales
+## Funcionalidades Principales
 
 * **CRUD Completo:** Creación, lectura, actualización y eliminación de videojuegos.
 * **Relaciones Many-to-Many:** Gestión eficiente de géneros (un juego puede tener múltiples géneros y viceversa) sin redundancia de datos.
@@ -24,7 +24,7 @@ Este proyecto fue desarrollado utilizando las mejores prácticas de **Spring Boo
     * Género específico
 * **Manejo de Errores:** Respuestas HTTP personalizadas (409 Conflict para duplicados, 404 Not Found, etc.) para una mejor experiencia de cliente.
 
-## 🔧 Configuración e Instalación
+## Configuración e Instalación
 
 Como este proyecto protege las credenciales de la base de datos, sigue estos pasos para ejecutarlo localmente:
 
@@ -52,7 +52,7 @@ Como este proyecto protege las credenciales de la base de datos, sigue estos pas
     ./mvnw spring-boot:run
     ```
 
-## 📡 Ejemplos de Endpoints
+## Ejemplos de Endpoints
 
 | Método | URL | Descripción |
 | :--- | :--- | :--- |
