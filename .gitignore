@@ -21,6 +21,8 @@ game-vault/target/
 
 ### Secrets ###
 src/main/resources/application.properties
+docker-compose.yaml
+gamevault_db.sql
 
 ### NetBeans ###
 /nbproject/private/
