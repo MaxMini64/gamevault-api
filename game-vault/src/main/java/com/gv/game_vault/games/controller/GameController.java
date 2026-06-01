@@ -1,5 +1,7 @@
-package com.gv.game_vault.games;
+package com.gv.game_vault.games.controller;
 
+import com.gv.game_vault.games.service.GameService;
+import com.gv.game_vault.games.entity.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

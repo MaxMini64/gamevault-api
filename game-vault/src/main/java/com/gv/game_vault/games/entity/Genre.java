@@ -1,4 +1,4 @@
-package com.gv.game_vault.games;
+package com.gv.game_vault.games.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

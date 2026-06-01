@@ -1,6 +1,7 @@
-package com.gv.game_vault.games;
+package com.gv.game_vault.games.repository;
 
 
+import com.gv.game_vault.games.entity.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
