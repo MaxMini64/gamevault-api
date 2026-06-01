@@ -20,7 +20,7 @@ game-vault/target/
 *.ipr
 
 ### Secrets ###
-src/main/resources/application.properties
+game-vault/src/main/resources/application.properties
 docker-compose.yaml
 gamevault_db.sql
 
