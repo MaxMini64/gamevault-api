@@ -1,7 +1,8 @@
 package com.gv.game_vault.games.controller;
 
+import com.gv.game_vault.games.dto.GameResponse;
+import com.gv.game_vault.games.dto.GameRequest;
 import com.gv.game_vault.games.service.GameService;
-import com.gv.game_vault.games.entity.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/game")
+@RequestMapping(path = "api/v1/games")
 public class GameController {
     private final GameService gameService;
 
@@ -21,56 +22,34 @@ public class GameController {
     }
 
     @GetMapping
-    public List<Game> getAllGames(
+    public List<GameResponse> getAllGames(
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) BigDecimal price,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Integer year){
-        if (genre != null && price != null) {
-            return gameService.getGamesByPrice_Genre(genre, price);
-        }
-        else if (price != null) {
-            return gameService.getGamesByPrice(price);
-        }
-        else if (title != null) {
-            return gameService.getGamesByTitle(title);
-        }
-        else if (year != null) {
-            return gameService.getGameByYear(year);
-        }
-        else if (genre != null) {
-            return gameService.getGameByGenre(genre);
-        }
-        else {
-            return gameService.getGames();
-        }
+        List<GameResponse> games = gameService.getGames(title, genre, price, year);
+        return ResponseEntity.ok(games);
     }
 
     @PostMapping
-    public ResponseEntity<?> createGame(@RequestBody Game game) {
-        try {
-            Game gameCreated = gameService.addGame(game);
-            return new ResponseEntity<>(gameCreated, HttpStatus.CREATED);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<GameResponse> createGame(@RequestBody GameRequest request) {
+        GameResponse gameCreated = gameService.addGame(request);
+        return new ResponseEntity<>(gameCreated, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Game> updateGame(@RequestBody Game game) {
-        Game gameUpdated = gameService.updateGame(game);
-        if (gameUpdated != null) {
-            return new ResponseEntity<>(gameUpdated, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("/{id")
+    public ResponseEntity<GameResponse> updateGame(
+            @PathVariable Long id,
+            @RequestBody GameRequest request)
+    {
+        GameResponse gameUpdated = gameService.updateGame(id, request);
+        return ResponseEntity.ok(gameUpdated);
     }
 
-    @DeleteMapping("/{gameID}")
-    public ResponseEntity<String> deleteGame(@PathVariable Long gameID) {
-        gameService.deleteGame(gameID);
-        return new ResponseEntity<>("Game deleted successfully", HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
+        gameService.deleteGame(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

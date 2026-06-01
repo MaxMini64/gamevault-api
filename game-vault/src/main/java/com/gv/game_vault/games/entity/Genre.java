@@ -10,6 +10,7 @@ import java.util.Set;
 @Table(name = "genres")
 public class Genre {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
     private Long genreID;
 

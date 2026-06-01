@@ -1,76 +1,103 @@
 package com.gv.game_vault.games.service;
 
-import com.gv.game_vault.games.repository.GameRepository;
+import com.gv.game_vault.games.dto.GameRequest;
+import com.gv.game_vault.games.dto.GameResponse;
 import com.gv.game_vault.games.entity.Game;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gv.game_vault.games.entity.Genre;
+import com.gv.game_vault.games.mapper.GameMapper;
+import com.gv.game_vault.games.repository.GameRepository;
+import com.gv.game_vault.games.repository.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GameService {
 
     private final GameRepository gameRepository;
-    @Autowired
-    public GameService(GameRepository gameRepository) {
+    private final GenreRepository genreRepository;
+
+    public GameService(GameRepository gameRepository, GenreRepository genreRepository) {
         this.gameRepository = gameRepository;
+        this.genreRepository = genreRepository;
     }
 
-    public List<Game> getGames() {
-        return gameRepository.findAll();
+    public List<GameResponse> getGames(String title, String genre ,BigDecimal price, Integer year) {
+        List<Game> games;
+
+        if(genre != null && price != null){
+            games = gameRepository.findByGenres_nameAndPrice(genre, price);
+        } else if(price != null){
+            games = gameRepository.findByPrice(price);
+        } else if(title != null){
+            games = gameRepository.findByTitleIgnoreCase(title);
+        } else if(year != null){
+            games = gameRepository.findByReleaseYear(year);
+        } else if(genre != null){
+            games = gameRepository.findByGenres_nameIgnoreCase(genre);
+        } else{
+            games = gameRepository.findAll();
+        }
+
+        return games.stream()
+                .map(GameMapper::toGameResponse)
+                .toList();
     }
 
-    public List<Game> getGamesByTitle(String title) {
-        return gameRepository.findBytitle(title);
-    }
+    public GameResponse addGame(GameRequest request) {
+        boolean gameExists = gameRepository.existsByTitleIgnoreCase(request.title());
 
-    public List<Game> getGameByGenre(String genreName) {
-
-        return gameRepository.findByGenres_name(genreName);
-    }
-
-    public List<Game> getGamesByPrice(BigDecimal price) {
-        return gameRepository.findByPrice(price);
-    }
-
-    public List<Game> getGameByYear(Integer year) {
-        return gameRepository.findByReleaseYear(year);
-    }
-
-    public List<Game> getGamesByPrice_Genre(String genreName, BigDecimal price) {
-        return gameRepository.findByGenres_nameAndPrice(genreName, price);
-    }
-
-    public Game addGame(Game game) {
-        List<Game> gameOptional = gameRepository.findBytitle(game.getTitle());
-        if (!gameOptional.isEmpty()) {
+        if(gameExists){
             throw new IllegalStateException("Game already exists");
         }
-        gameRepository.save(game);
-        return game;
+
+        Set<Genre> genres = getGenresByIds(request.genreIds());
+
+        Game game = new Game();
+        game.setTitle(request.title());
+        game.setPrice(request.price());
+        game.setReleaseYear(request.releaseYear());
+        game.setGenres(genres);
+
+        Game savedGame = gameRepository.save(game);
+        return GameMapper.toGameResponse(savedGame);
     }
 
-    public Game updateGame(Game Updatedgame) {
-        List<Game> existingGame = gameRepository.findBytitle(Updatedgame.getTitle());
-        if (!existingGame.isEmpty()) {
-            Game gameToUpdate = existingGame.getFirst();
-            gameToUpdate.setTitle(Updatedgame.getTitle());
-            gameToUpdate.setPrice(Updatedgame.getPrice());
-            gameToUpdate.setReleaseYear(Updatedgame.getReleaseYear());
-            gameToUpdate.setGenres(Updatedgame.getGenres());
+    public GameResponse updateGame(Long id, GameRequest request) {
+        Game gameToUpdate = gameRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Game does not exist"));
 
-            gameRepository.save(gameToUpdate);
-            return gameToUpdate;
-        }
-        return null;
+        Set<Genre> genres = getGenresByIds(request.genreIds());
+
+        gameToUpdate.setTitle(request.title());
+        gameToUpdate.setPrice(request.price());
+        gameToUpdate.setReleaseYear(request.releaseYear());
+        gameToUpdate.setGenres(genres);
+
+        Game updatedGame = gameRepository.save(gameToUpdate);
+
+        return GameMapper.toGameResponse(updatedGame);
     }
 
     public void deleteGame(Long id) {
-        boolean canDelete = gameRepository.existsById(id);
-        if (!canDelete) {
+        boolean exists = gameRepository.existsById(id);
+        if (!exists) {
             throw new IllegalStateException("Game does not exist");
         }
+
         gameRepository.deleteById(id);
+    }
+
+    private Set<Genre> getGenresByIds(Set<Long> genreIds){
+        List<Genre> genres = genreRepository.findAllById(genreIds);
+
+        if(genres.size() != genreIds.size()){
+            throw new IllegalStateException("One or more genres do not exist");
+        }
+
+        return new HashSet<>(genres);
     }
 }
