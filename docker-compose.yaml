@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: gamevault-postgres
+    environment:
+      POSTGRES_DB: gamevault_db
+      POSTGRES_USER: gamevault_user
+      POSTGRES_PASSWORD: gamevault_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - gamevault_data:/var/lib/postgresql/data
+
+volumes:
+  gamevault_data:

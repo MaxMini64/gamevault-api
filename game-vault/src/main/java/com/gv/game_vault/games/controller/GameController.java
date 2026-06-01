@@ -22,11 +22,12 @@ public class GameController {
     }
 
     @GetMapping
-    public List<GameResponse> getAllGames(
+    public ResponseEntity<List<GameResponse>> getAllGames(
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) BigDecimal price,
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) Integer year){
+            @RequestParam(required = false) Integer year)
+    {
         List<GameResponse> games = gameService.getGames(title, genre, price, year);
         return ResponseEntity.ok(games);
     }
