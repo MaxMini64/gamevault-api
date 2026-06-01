@@ -30,7 +30,7 @@ Como este proyecto protege las credenciales de la base de datos, sigue estos pas
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [https://github.com/TU_USUARIO/GameVault-api.git](https://github.com/TU_USUARIO/GameVault-api.git)
+    git clone https://github.com/MaxMini64/gamevault-api.git
     ```
 
 2.  **Base de Datos:**
