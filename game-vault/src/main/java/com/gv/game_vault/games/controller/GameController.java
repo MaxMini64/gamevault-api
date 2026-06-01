@@ -38,7 +38,7 @@ public class GameController {
         return new ResponseEntity<>(gameCreated, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id")
+    @PutMapping("/{id}")
     public ResponseEntity<GameResponse> updateGame(
             @PathVariable Long id,
             @RequestBody GameRequest request)

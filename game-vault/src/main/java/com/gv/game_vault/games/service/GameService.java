@@ -28,18 +28,18 @@ public class GameService {
     public List<GameResponse> getGames(String title, String genre ,BigDecimal price, Integer year) {
         List<Game> games;
 
-        if(genre != null && price != null){
-            games = gameRepository.findByGenres_nameAndPrice(genre, price);
-        } else if(price != null){
-            games = gameRepository.findByPrice(price);
-        } else if(title != null){
-            games = gameRepository.findByTitleIgnoreCase(title);
-        } else if(year != null){
-            games = gameRepository.findByReleaseYear(year);
-        } else if(genre != null){
-            games = gameRepository.findByGenres_nameIgnoreCase(genre);
-        } else{
-            games = gameRepository.findAll();
+        if (genre != null && price != null) {
+            games = gameRepository.findByGenreAndPriceWithGenres(genre, price);
+        } else if (price != null) {
+            games = gameRepository.findByPriceWithGenres(price);
+        } else if (title != null) {
+            games = gameRepository.findByTitleWithGenres(title);
+        } else if (year != null) {
+            games = gameRepository.findByReleaseYearWithGenres(year);
+        } else if (genre != null) {
+            games = gameRepository.findByGenreWithGenres(genre);
+        } else {
+            games = gameRepository.findAllWithGenres();
         }
 
         return games.stream()

@@ -1,0 +1,17 @@
+### Get all games
+GET http://localhost:8080/api/v1/games
+
+### Get games by genre
+GET http://localhost:8080/api/v1/games?genre=Single-player
+
+### Get games by title
+GET http://localhost:8080/api/v1/games?title=PAYDAY 3
+
+### Get games by price
+GET http://localhost:8080/api/v1/games?price=59.99
+
+### Get games by year
+GET http://localhost:8080/api/v1/games?year=2025
+
+### Get games by genre and price
+GET http://localhost:8080/api/v1/games?genre=Single-player&price=59.99
