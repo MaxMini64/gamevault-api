@@ -22,7 +22,7 @@ Este proyecto fue desarrollado utilizando las mejores prácticas de **Spring Boo
     * Año de lanzamiento
     * Precio
     * Género específico
-* **Manejo de Errores:** Respuestas HTTP personalizadas (409 Conflict para duplicados, 404 Not Found, etc.) para una mejor experiencia de cliente.
+* **Manejo de Errores:** Respuestas HTTP personalizadas (409 Conflict para duplicados, 404 Not Found, etc.) para una mejor experiencia de usuario.
 
 ## Configuración e Instalación
 
