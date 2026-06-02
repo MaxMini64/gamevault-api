@@ -1,24 +1,29 @@
 package com.gv.game_vault.games.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 public record GameRequest(
+        @Schema(example = "Elden Ring")
         @NotBlank(message = "Title is required")
         @Size(max = 100, message = "Title cannot exceed 100 characters")
         String title,
 
+        @Schema(example = "59.99")
         @NotNull(message = "Price is required")
         @PositiveOrZero(message = "Price cannot be negative")
         BigDecimal price,
 
+        @Schema(example = "2022")
         @NotNull(message = "Release year is required")
         @Min(value = 1970, message = "Release year must be greater than or equal to 1970")
         @Max(value = 2100, message = "Release year must be realistic")
         Integer releaseYear,
 
+        @Schema(example = "[1, 2]")
         @NotEmpty(message = "At least one genre is required")
         Set<Long> genreIds
 ) {

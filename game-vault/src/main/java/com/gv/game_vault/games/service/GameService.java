@@ -10,6 +10,10 @@ import com.gv.game_vault.games.exception.GenreNotFoundException;
 import com.gv.game_vault.games.mapper.GameMapper;
 import com.gv.game_vault.games.repository.GameRepository;
 import com.gv.game_vault.games.repository.GenreRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,26 +32,49 @@ public class GameService {
         this.genreRepository = genreRepository;
     }
 
-    public List<GameResponse> getGames(String title, String genre ,BigDecimal price, Integer year) {
-        List<Game> games;
+    public Page<GameResponse> getGames(
+            String title,
+            String genre,
+            BigDecimal price,
+            Integer year,
+            int page,
+            int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Long> gameIdsPage;
 
         if (genre != null && price != null) {
-            games = gameRepository.findByGenreAndPriceWithGenres(genre, price);
+            gameIdsPage = gameRepository.findIdsByGenreAndPrice(genre, price, pageable);
         } else if (price != null) {
-            games = gameRepository.findByPriceWithGenres(price);
+            gameIdsPage = gameRepository.findIdsByPrice(price, pageable);
         } else if (title != null) {
-            games = gameRepository.findByTitleWithGenres(title);
+            gameIdsPage = gameRepository.findIdsByTitle(title, pageable);
         } else if (year != null) {
-            games = gameRepository.findByReleaseYearWithGenres(year);
+            gameIdsPage = gameRepository.findIdsByReleaseYear(year, pageable);
         } else if (genre != null) {
-            games = gameRepository.findByGenreWithGenres(genre);
+            gameIdsPage = gameRepository.findIdsByGenre(genre, pageable);
         } else {
-            games = gameRepository.findAllWithGenres();
+            gameIdsPage = gameRepository.findAllIds(pageable);
         }
 
-        return games.stream()
+        List<Long> ids = gameIdsPage.getContent();
+
+        if (ids.isEmpty()) {
+            return Page.empty(pageable);
+        }
+
+        List<Game> games = gameRepository.findAllByIdsWithGenres(ids);
+
+        List<GameResponse> responses = games.stream()
                 .map(GameMapper::toGameResponse)
                 .toList();
+
+        return new PageImpl<>(
+                responses,
+                pageable,
+                gameIdsPage.getTotalElements()
+        );
     }
 
     public GameResponse addGame(GameRequest request) {
