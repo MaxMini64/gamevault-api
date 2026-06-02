@@ -1,17 +1,284 @@
-### Get all games
-GET http://localhost:8080/api/v1/games
 
-### Get games by genre
-GET http://localhost:8080/api/v1/games?genre=Single-player
+@baseUrl = http://localhost:8080/api/v1/games
+
+### =========================================================
+### GET SUCCESS CASES
+### =========================================================
+
+### Get all games
+### Expected: 200 OK
+### Description: Returns all games with their genres.
+GET {{baseUrl}}
+
 
 ### Get games by title
-GET http://localhost:8080/api/v1/games?title=PAYDAY 3
+### Expected: 200 OK
+### Description: Searches games by partial title match.
+GET {{baseUrl}}?title=Portal
+
+
+### Get games by genre
+### Expected: 200 OK
+### Description: Searches games by an existing genre.
+GET {{baseUrl}}?genre=Single-player
+
+
+### Get games by genre with URL encoded space
+### Expected: 200 OK
+### Description: Searches games by genre name containing spaces.
+GET {{baseUrl}}?genre=Steam%20Cloud
+
 
 ### Get games by price
-GET http://localhost:8080/api/v1/games?price=59.99
+### Expected: 200 OK
+### Description: Searches games by exact price.
+GET {{baseUrl}}?price=19.99
+
 
 ### Get games by year
-GET http://localhost:8080/api/v1/games?year=2025
+### Expected: 200 OK
+### Description: Searches games by release year.
+GET {{baseUrl}}?year=2020
+
 
 ### Get games by genre and price
-GET http://localhost:8080/api/v1/games?genre=Single-player&price=59.99
+### Expected: 200 OK
+### Description: Searches games by genre and exact price.
+GET {{baseUrl}}?genre=Single-player&price=19.99
+
+
+### Get games with no results
+### Expected: 200 OK
+### Description: Valid filter, but should return an empty array.
+GET {{baseUrl}}?title=ThisTitleShouldNotExist12345
+
+
+### Get games with invalid price parameter
+### Expected: 400 Bad Request
+### Description: Invalid BigDecimal value.
+GET {{baseUrl}}?price=abc
+
+
+### Get games with invalid year parameter
+### Expected: 400 Bad Request
+### Description: Invalid Integer value.
+GET {{baseUrl}}?year=twentyTwenty
+
+
+### =========================================================
+### POST SUCCESS CASES
+### =========================================================
+
+### Create a valid game
+### Expected: 201 Created
+### Description: Creates a game using existing genre IDs.
+### After running this request, copy the returned ID for PUT and DELETE tests.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "GameVault Manual Test",
+  "price": 29.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5, 10]
+}
+
+
+### Create another valid game for duplicate testing
+### Expected first run: 201 Created
+### Expected second run: 409 Conflict
+### Description: Run this once successfully, then run it again to test duplicate title handling.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Duplicate Test Game",
+  "price": 9.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### =========================================================
+### PUT SUCCESS CASES
+### =========================================================
+
+### Update an existing game
+### Expected: 200 OK
+### Description: Replace 4000000 with the ID returned by "Create a valid game".
+PUT {{baseUrl}}/4000000
+Content-Type: application/json
+
+{
+  "title": "GameVault Manual Test Updated",
+  "price": 34.99,
+  "releaseYear": 2025,
+  "genreIds": [1, 12, 19, 22]
+}
+
+
+### =========================================================
+### DELETE SUCCESS CASES
+### =========================================================
+
+### Delete an existing game
+### Expected: 204 No Content
+### Description: Replace 4000000 with the ID returned by "Create a valid game".
+DELETE {{baseUrl}}/4000000
+
+
+### =========================================================
+### POST VALIDATION ERROR CASES
+### =========================================================
+
+### Create game with empty title
+### Expected: 400 Bad Request
+### Description: Tests @NotBlank validation for title.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "price": 19.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### Create game without title
+### Expected: 400 Bad Request
+### Description: Tests missing title validation.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "price": 19.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### Create game with negative price
+### Expected: 400 Bad Request
+### Description: Tests price validation.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Invalid Negative Price Game",
+  "price": -10.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### Create game without price
+### Expected: 400 Bad Request
+### Description: Tests missing price validation.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Missing Price Game",
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### Create game with invalid release year
+### Expected: 400 Bad Request
+### Description: Tests releaseYear lower bound validation.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Invalid Year Game",
+  "price": 19.99,
+  "releaseYear": 1800,
+  "genreIds": [1, 5]
+}
+
+
+### Create game with empty genreIds
+### Expected: 400 Bad Request
+### Description: Tests that at least one genre is required.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "No Genres Game",
+  "price": 19.99,
+  "releaseYear": 2024,
+  "genreIds": []
+}
+
+
+### Create game with non-existing genreId
+### Expected: 404 Not Found
+### Description: Tests service validation for genre IDs.
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Invalid Genre Game",
+  "price": 19.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 999999]
+}
+
+
+### Create duplicate game
+### Expected: 409 Conflict
+### Description: Run this after successfully creating "Duplicate Test Game".
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+  "title": "Duplicate Test Game",
+  "price": 9.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### =========================================================
+### PUT ERROR CASES
+### =========================================================
+
+### Update non-existing game
+### Expected: 404 Not Found
+### Description: Tests error handling for non-existing game ID.
+PUT {{baseUrl}}/999999999
+Content-Type: application/json
+
+{
+  "title": "This Game Does Not Exist",
+  "price": 19.99,
+  "releaseYear": 2024,
+  "genreIds": [1, 5]
+}
+
+
+### Update existing game with invalid body
+### Expected: 400 Bad Request
+### Description: Replace 496350 with an existing game ID if needed.
+PUT {{baseUrl}}/496350
+Content-Type: application/json
+
+{
+  "title": "",
+  "price": -10.99,
+  "releaseYear": 1800,
+  "genreIds": []
+}
+
+
+### =========================================================
+### DELETE ERROR CASES
+### =========================================================
+
+### Delete non-existing game
+### Expected: 404 Not Found
+### Description: Tests error handling for non-existing game ID.
+DELETE {{baseUrl}}/999999999
+

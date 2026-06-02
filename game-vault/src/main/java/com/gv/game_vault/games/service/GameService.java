@@ -88,7 +88,7 @@ public class GameService {
     public void deleteGame(Long id) {
         boolean exists = gameRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Game does not exist");
+            throw new GameNotFoundException(id);
         }
 
         gameRepository.deleteById(id);
