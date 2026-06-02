@@ -4,6 +4,9 @@ import com.gv.game_vault.games.dto.GameRequest;
 import com.gv.game_vault.games.dto.GameResponse;
 import com.gv.game_vault.games.entity.Game;
 import com.gv.game_vault.games.entity.Genre;
+import com.gv.game_vault.games.exception.GameAlreadyExistsException;
+import com.gv.game_vault.games.exception.GameNotFoundException;
+import com.gv.game_vault.games.exception.GenreNotFoundException;
 import com.gv.game_vault.games.mapper.GameMapper;
 import com.gv.game_vault.games.repository.GameRepository;
 import com.gv.game_vault.games.repository.GenreRepository;
@@ -51,7 +54,7 @@ public class GameService {
         boolean gameExists = gameRepository.existsByTitleIgnoreCase(request.title());
 
         if(gameExists){
-            throw new IllegalStateException("Game already exists");
+            throw new GameAlreadyExistsException(request.title());
         }
 
         Set<Genre> genres = getGenresByIds(request.genreIds());
@@ -68,7 +71,7 @@ public class GameService {
 
     public GameResponse updateGame(Long id, GameRequest request) {
         Game gameToUpdate = gameRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Game does not exist"));
+                .orElseThrow(() -> new GameNotFoundException(id));
 
         Set<Genre> genres = getGenresByIds(request.genreIds());
 
@@ -95,7 +98,7 @@ public class GameService {
         List<Genre> genres = genreRepository.findAllById(genreIds);
 
         if(genres.size() != genreIds.size()){
-            throw new IllegalStateException("One or more genres do not exist");
+            throw new GenreNotFoundException();
         }
 
         return new HashSet<>(genres);
