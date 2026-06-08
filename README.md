@@ -1,5 +1,7 @@
 # GameVault API
 
+🇲🇽 [Leer en español](README.es.md)
+
 A RESTful API for managing a video game catalog — built with **Java 21**, **Spring Boot 4**, and **PostgreSQL**. Supports full CRUD operations, many-to-many genre relationships, dynamic filtering, pagination, and structured error handling.
 
 > Built as a portfolio project to practice professional backend development with Spring Boot, JPA/Hibernate, and Docker.
